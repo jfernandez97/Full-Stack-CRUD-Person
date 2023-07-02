@@ -1,8 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import PersonService from '../services/PersonService';
 
 const ListPersonComponent = () => {
 
     const [persons, setPersons] = useState([]);
+
+    useEffect(() => {
+        PersonService.getAllPersons().then((response) => {
+            setPersons(response.data);
+            console.log(response.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    }, [])
   return (
     <div className='container'>
         <h2 className='text-center'> Personas </h2>

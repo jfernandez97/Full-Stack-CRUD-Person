@@ -8,6 +8,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 @Getter
 @Setter
@@ -23,9 +26,8 @@ public class Person {
     private String firstName;
     @Column(name = "last_name",length = 50)
     private String lastName;
-    @Column(name = "birth_date")
-
-    private Date birthDate;
+    @Column(columnDefinition = "DATE")
+    private LocalDate birthDate;
     @Column(name = "document_type")
     private String documentType;
     @Column(name = "document_number")
@@ -39,10 +41,11 @@ public class Person {
 
     public void setBirthDate(String birthDate) {
        try {
-           SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            this.birthDate = dateFormat.parse(birthDate);
+           DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+           LocalDate parsedDate = LocalDate.parse(birthDate, formatter);
+           this.birthDate = parsedDate;
        }
-       catch (ParseException e){
+       catch (DateTimeParseException e){
            e.printStackTrace();
        }
     }
