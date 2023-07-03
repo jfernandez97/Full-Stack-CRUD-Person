@@ -3,10 +3,7 @@ package com.people.backend.controller;
 import com.people.backend.model.Person;
 import com.people.backend.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @CrossOrigin("*")
@@ -19,5 +16,9 @@ public class PersonController {
     @GetMapping
     public List<Person> getAllPersons(){
         return personRepository.findAll();
+    }
+    @PostMapping
+    public  Person createPerson(@RequestBody Person person){
+        return personRepository.save(person);
     }
 }

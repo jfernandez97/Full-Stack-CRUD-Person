@@ -20,21 +20,21 @@ public class BackendApplication implements CommandLineRunner {
 	private PersonRepository personRepository;
 	@Override
 	public void run(String... args) throws Exception {
-		Person person1 = new Person();
-		person1.setFirstName("Juan");
-		person1.setLastName("Fernandez");
-		person1.setBirthDate("1997-02-27");
-		person1.setDocumentType(Person.DocumentTypeEnum.DNI);
-		person1.setDocumentNumber(40245923L);
-		personRepository.save(person1);
-
-		Person person2 = new Person();
-		person2.setFirstName("Matias");
-		person2.setLastName("Mercado");
-		person2.setBirthDate("1996-10-05");
-		person2.setDocumentType(Person.DocumentTypeEnum.DNI);
-		person2.setDocumentNumber(39235678L);
-		personRepository.save(person2);
+//		Person person1 = new Person();
+//		person1.setFirstName("Juan");
+//		person1.setLastName("Fernandez");
+//		person1.setBirthDate("1997-02-27");
+//		person1.setDocumentType(Person.DocumentTypeEnum.DNI);
+//		person1.setDocumentNumber(40245923L);
+//		personRepository.save(person1);
+//
+//		Person person2 = new Person();
+//		person2.setFirstName("Matias");
+//		person2.setLastName("Mercado");
+//		person2.setBirthDate("1996-10-05");
+//		person2.setDocumentType(Person.DocumentTypeEnum.DNI);
+//		person2.setDocumentNumber(39235678L);
+//		personRepository.save(person2);
 
 
 	}
