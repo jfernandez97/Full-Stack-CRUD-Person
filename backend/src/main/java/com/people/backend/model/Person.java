@@ -31,7 +31,7 @@ public class Person {
     @Column(name = "document_type")
     private String documentType;
     @Column(name = "document_number")
-    private Long documentNumber;
+    private String documentNumber;
 
 
 

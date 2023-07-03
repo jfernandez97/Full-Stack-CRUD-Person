@@ -35,6 +35,15 @@ public class BackendApplication implements CommandLineRunner {
 //		person2.setDocumentType(Person.DocumentTypeEnum.DNI);
 //		person2.setDocumentNumber(39235678L);
 //		personRepository.save(person2);
+//
+//		Person person3 = new Person();
+//		person3.setFirstName("Juli");
+//		person3.setLastName("Morales");
+//		person3.setBirthDate("10/25/1988");
+//		person3.setDocumentType(Person.DocumentTypeEnum.DNI);
+//		person3.setDocumentNumber(31234533L);
+//		personRepository.save(person3);
+
 
 
 	}

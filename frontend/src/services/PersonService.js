@@ -7,6 +7,9 @@ class PersonService {
     getAllPersons() {
         return axios.get(PERSON_API_BASE_URL);
     }
+    createPerson(person) {
+        return axios.post(PERSON_API_BASE_URL, person);
+    }
 }
 
 export default new PersonService();
