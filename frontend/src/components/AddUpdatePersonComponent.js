@@ -95,6 +95,7 @@ const AddPersonComponent = () => {
                                     <label className="form-label">Document type </label>
                                     <select
                                         className="form-control"
+                                        name= "documentType"
                                         value={documentType}
                                         onChange={(e) => setDocumentType(e.target.value)}
                                     >

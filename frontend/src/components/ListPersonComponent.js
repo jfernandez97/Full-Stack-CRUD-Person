@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import PersonService from '../services/PersonService';
+import PaginatorComponent from './PaginatorComponent';
 
 const ListPersonComponent = () => {
     const [persons, setPersons] = useState([]);
@@ -9,6 +10,8 @@ const ListPersonComponent = () => {
     const [filterFirstName, setFilterFirstName] = useState('');
     const [filterDocumentType, setFilterDocumentType] = useState('');
     const navigate = useNavigate();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(8);
 
     useEffect(() => {
         PersonService.getAllPersons()
@@ -55,7 +58,15 @@ const ListPersonComponent = () => {
     const toggleFilterCollapse = () => {
         setFilterCollapsed(!filterCollapsed);
     };
+    // Logic for pagination
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filteredPersons.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(filteredPersons.length / itemsPerPage);
 
+    const onPageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     return (
         <div className='container'>
@@ -127,6 +138,7 @@ const ListPersonComponent = () => {
                     <h4>The people list is empty...</h4>
                 </div>
             ) : (
+                <>
                 <table className='table table-boreded table-striped'>
                     <thead>
                         <tr>
@@ -140,7 +152,7 @@ const ListPersonComponent = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredPersons.map((person) => (
+                        {currentItems.map((person) => (
                             <tr key={person.id}>
                                 <td>{person.id}</td>
                                 <td>{person.firstName}</td>
@@ -198,6 +210,12 @@ const ListPersonComponent = () => {
                         ))}
                     </tbody>
                 </table>
+            <PaginatorComponent
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={onPageChange}
+            />
+            </>
             )}
         </div>
     );
