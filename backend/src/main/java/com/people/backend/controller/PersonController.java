@@ -4,6 +4,7 @@ import com.people.backend.exception.ResourceNotFoundException;
 import com.people.backend.model.Person;
 import com.people.backend.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,5 +39,11 @@ public class PersonController {
         person.setDocumentNumber(personDetails.getDocumentNumber());
         Person updatedPerson = personRepository.save(person);
         return ResponseEntity.ok(updatedPerson);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Person> deletePerson(@PathVariable Long id){
+        Person person = personRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Person not found with id: "+id));
+        personRepository.delete(person);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

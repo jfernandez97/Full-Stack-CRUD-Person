@@ -1,6 +1,6 @@
 
 import './App.css';
-import AddPersonComponent from './components/AddPersonComponent';
+import AddUpdatePersonComponent from './components/AddUpdatePersonComponent';
 import FooterComponent from './components/FooterComponent';
 import HeaderComponent from './components/HeaderComponent';
 import ListPersonComponent from './components/ListPersonComponent';
@@ -15,7 +15,8 @@ function App() {
           <Routes>
             <Route path='/' exact Component={ListPersonComponent}></Route>
             <Route path='/persons' Component={ListPersonComponent}></Route>
-            <Route path='/add-person' Component={AddPersonComponent}></Route>
+            <Route path='/add-person' Component={AddUpdatePersonComponent}></Route>
+            <Route path='/update-person/:id' Component={AddUpdatePersonComponent}></Route>
           </Routes>
         </div>
         <FooterComponent/>

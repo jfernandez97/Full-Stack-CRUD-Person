@@ -10,6 +10,15 @@ class PersonService {
     createPerson(person) {
         return axios.post(PERSON_API_BASE_URL, person);
     }
+    getPersonById(personId) {
+        return axios.get(PERSON_API_BASE_URL + personId);
+    }
+    updatePerson(personId, person) {
+        return axios.put(PERSON_API_BASE_URL + personId, person);
+    }
+    deletePerson(personId) {
+        return axios.delete(PERSON_API_BASE_URL + personId);
+    }
 }
 
 export default new PersonService();

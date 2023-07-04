@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PersonService from '../services/PersonService';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 const AddPersonComponent = () => {
@@ -10,25 +10,48 @@ const AddPersonComponent = () => {
     const [documentNumber, setDocumentNumber] = useState('');
     const [birthDate, setBirthDate] = useState('');
     const navigate = useNavigate();
+    const { id } = useParams();
 
-    const savePerson = (e) => {
+    const saveOrUpdatePerson = (e) => {
         e.preventDefault();
         let person = {firstName: firstName, lastName: lastName, documentType: documentType, documentNumber: documentNumber, birthDate: birthDate};
-        console.log('person => ' + JSON.stringify(person));
-
-        PersonService.createPerson(person).then(res => {
-            console.log(res.data);
-            navigate('/persons');
-        }).catch(error => {
-            console.log(error);
-        })
+        if(id){
+            PersonService.updatePerson(id, person).then(response => {
+                console.log(response.data);
+                navigate('/persons');
+            }).catch(error => {
+                console.log(error);
+            })
+        }else{
+            PersonService.createPerson(person).then(response => {
+                console.log(response.data);
+                navigate('/persons');
+            }).catch(error => {
+                console.log(error);
+            })
+        }
     }
-  return (
+    useEffect(() => {
+        if (id) {
+            PersonService.getPersonById(id).then((response) => {
+                console.log(response, "response");
+                setFirstName(response.data.firstName);
+                setLastName(response.data.lastName);
+                setDocumentType(response.data.documentType);
+                setDocumentNumber(response.data.documentNumber);
+                setBirthDate(response.data.birthDate);
+            }).catch(error => {
+                console.log(error);
+            })
+        }
+    }, [id]);
+    const title = id ? <h2 className='text-center'>Update Person</h2> : <h2 className='text-center'>Add Person</h2>;
+    return (
     <div>
         <div className='container p-4'>
             <div className='row'>
                 <div className='card col-md-6 offset-md-3 offset-md-3'>
-                    <h3 className='text-center'>General Data</h3>
+                    {title}
                     <div className='card-body'>
                         <form>
                             <div className='form-group'>
@@ -62,8 +85,8 @@ const AddPersonComponent = () => {
                                     >
                                         <option value='' disabled selected> Select...</option>
                                         <option value='DNI'>DNI</option>
-                                        <option value='Pasaporte'>Pasaporte</option>
-                                        <option value='Cedula'>Cédula</option>
+                                        <option value='PASAPORTE'>Pasaporte</option>
+                                        <option value='CEDULA'>Cédula</option>
                                     </select>
                             </div>
                             <div className='form-group'>
@@ -90,7 +113,7 @@ const AddPersonComponent = () => {
                                 <button type='button' className='btn btn-primary' onClick={(e) => navigate('/persons')}>
                                     Volver
                                 </button>
-                                <button type='button' className='btn btn-success' onClick={(e) => savePerson(e)}>
+                                <button type='button' className='btn btn-success' onClick={(e) => saveOrUpdatePerson(e)}>
                                     Guardar
                                 </button>
                             </div>
