@@ -29,7 +29,6 @@ const AddPersonComponent = () => {
             if (id) {
                 PersonService.updatePerson(id, person)
                     .then((response) => {
-                        console.log(response.data);
                         navigate("/persons");
                     })
                     .catch((error) => {
@@ -38,7 +37,6 @@ const AddPersonComponent = () => {
             } else {
                 PersonService.createPerson(person)
                     .then((response) => {
-                        console.log(response.data);
                         navigate("/persons");
                     })
                     .catch((error) => {
@@ -51,7 +49,6 @@ const AddPersonComponent = () => {
         if (id) {
             PersonService.getPersonById(id)
                 .then((response) => {
-                    console.log(response, "response");
                     setFirstName(response.data.firstName);
                     setLastName(response.data.lastName);
                     setDocumentType(response.data.documentType);
