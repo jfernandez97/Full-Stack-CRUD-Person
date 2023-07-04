@@ -10,7 +10,7 @@ function App() {
   return (
     <div>
       <Router>
-        <HeaderComponent/>
+        <HeaderComponent />
         <div className='container'>
           <Routes>
             <Route path='/' exact Component={ListPersonComponent}></Route>
@@ -19,7 +19,7 @@ function App() {
             <Route path='/update-person/:id' Component={AddUpdatePersonComponent}></Route>
           </Routes>
         </div>
-        <FooterComponent/>
+        <FooterComponent />
       </Router>
     </div>
   );
