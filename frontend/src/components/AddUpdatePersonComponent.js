@@ -8,36 +8,43 @@ const AddPersonComponent = () => {
     const [documentType, setDocumentType] = useState("");
     const [documentNumber, setDocumentNumber] = useState("");
     const [birthDate, setBirthDate] = useState("");
+    const [firstNameError, setFirstNameError] = useState("");
+    const [lastNameError, setLastNameError] = useState("");
+    const [documentTypeError, setDocumentTypeError] = useState("");
+    const [documentNumberError, setDocumentNumberError] = useState("");
+    const [birthDateError, setBirthDateError] = useState("");
     const navigate = useNavigate();
     const { id } = useParams();
 
     const saveOrUpdatePerson = (e) => {
-        e.preventDefault();
-        let person = {
-            firstName: firstName,
-            lastName: lastName,
-            documentType: documentType,
-            documentNumber: documentNumber,
-            birthDate: birthDate,
-        };
-        if (id) {
-            PersonService.updatePerson(id, person)
-                .then((response) => {
-                    console.log(response.data);
-                    navigate("/persons");
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        } else {
-            PersonService.createPerson(person)
-                .then((response) => {
-                    console.log(response.data);
-                    navigate("/persons");
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+        if (validateForm()) {
+            e.preventDefault();
+            let person = {
+                firstName: firstName,
+                lastName: lastName,
+                documentType: documentType,
+                documentNumber: documentNumber,
+                birthDate: birthDate,
+            };
+            if (id) {
+                PersonService.updatePerson(id, person)
+                    .then((response) => {
+                        console.log(response.data);
+                        navigate("/persons");
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            } else {
+                PersonService.createPerson(person)
+                    .then((response) => {
+                        console.log(response.data);
+                        navigate("/persons");
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            }
         }
     };
     useEffect(() => {
@@ -56,6 +63,48 @@ const AddPersonComponent = () => {
                 });
         }
     }, [id]);
+    const validateForm = () => {
+        let isValid = true;
+
+        // Reset error messages
+        setFirstNameError("");
+        setLastNameError("");
+        setDocumentTypeError("");
+        setDocumentNumberError("");
+        setBirthDateError("");
+
+        // Validate firstName
+        if (firstName.trim() === "") {
+            setFirstNameError("First Name is required");
+            isValid = false;
+        }
+
+        // Validate lastName
+        if (lastName.trim() === "") {
+            setLastNameError("Last Name is required");
+            isValid = false;
+        }
+
+        // Validate documentType
+        if (documentType.trim() === "") {
+            setDocumentTypeError("Document Type is required");
+            isValid = false;
+        }
+
+        // Validate documentNumber
+        if (documentNumber.trim() === "") {
+            setDocumentNumberError("Document Number is required");
+            isValid = false;
+        }
+
+        // Validate birthDate
+        if (birthDate.trim() === "") {
+            setBirthDateError("Birth Date is required");
+            isValid = false;
+        }
+
+        return isValid;
+    };
     const title = id ? (
         <h2 className="text-center">Update Person</h2>
     ) : (
@@ -79,6 +128,7 @@ const AddPersonComponent = () => {
                                         value={firstName}
                                         onChange={(e) => setFirstName(e.target.value)}
                                     />
+                                    {firstNameError && <div className="text-danger">{firstNameError}</div>}
                                 </div>
                                 <div className="form-group">
                                     <label className="form-label">Lastname </label>
@@ -90,12 +140,13 @@ const AddPersonComponent = () => {
                                         value={lastName}
                                         onChange={(e) => setLastName(e.target.value)}
                                     />
+                                    {lastNameError && <div className="text-danger">{lastNameError}</div>}
                                 </div>
                                 <div className="form-group">
                                     <label className="form-label">Document type </label>
                                     <select
                                         className="form-control"
-                                        name= "documentType"
+                                        name="documentType"
                                         value={documentType}
                                         onChange={(e) => setDocumentType(e.target.value)}
                                     >
@@ -107,6 +158,7 @@ const AddPersonComponent = () => {
                                         <option value="PASAPORTE">Pasaporte</option>
                                         <option value="CEDULA">Cédula</option>
                                     </select>
+                                    {documentTypeError && <div className="text-danger">{documentTypeError}</div>}
                                 </div>
                                 <div className="form-group">
                                     <label className="form-label">Document Number </label>
@@ -117,6 +169,7 @@ const AddPersonComponent = () => {
                                         value={documentNumber}
                                         onChange={(e) => setDocumentNumber(e.target.value)}
                                     />
+                                    {documentNumberError && <div className="text-danger">{documentNumberError}</div>}
                                 </div>
                                 <div className="form-group">
                                     <label className="form-label">Birthdate </label>
@@ -128,6 +181,7 @@ const AddPersonComponent = () => {
                                         onChange={(e) => setBirthDate(e.target.value)}
                                     />
                                 </div>
+                                {birthDateError && <div className="text-danger">{birthDateError}</div>}
                                 <div className="d-flex justify-content-between p-4">
                                     <button
                                         type="button"
